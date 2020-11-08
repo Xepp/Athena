@@ -1,0 +1,49 @@
+version: '3.2'
+
+services:
+
+  elasticsearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_KIBANA_VERSION}"
+    environment:
+      - cluster.name=es-docker-cluster
+      - network.host=0.0.0.0
+      - discovery.zen.minimum_master_nodes=1
+      - discovery.type=single-node
+      - xpack.license.self_generated.type=basic
+      - xpack.security.enabled=false
+      - xpack.monitoring.collection.enabled=false
+      - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
+    restart: always
+    volumes:
+      - type: volume
+        source: esdata
+        target: /usr/share/elasticsearch/data
+    ports:
+      - target: 9200
+        published: 9200
+        protocol: tcp
+        mode: host
+      - target: 9300
+        published: 9300
+        protocol: tcp
+        mode: host
+
+  kibana:
+    image: "docker.elastic.co/kibana/kibana:${ELASTIC_KIBANA_VERSION}"
+    environment:
+      - SERVER_NAME=kibana
+      - SERVER_HOST="0"
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED=false
+    restart: always
+    ports:
+      - target: 5601
+        published: 5601
+        protocol: tcp
+        mode: host
+    depends_on:
+      - elasticsearch
+
+volumes:
+  esdata:
+    driver: local
