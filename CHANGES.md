@@ -9,3 +9,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changelog file
 - docker-compose
 - elasticsearch & kibana v7.9.3
+- rest web application
