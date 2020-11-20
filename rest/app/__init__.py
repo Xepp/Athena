@@ -5,6 +5,7 @@ from elasticsearch.exceptions import TransportError
 
 from app.main import create_app
 from app.main.controller.sentiment import sentiment_blueprint
+from app.main.controller.nest import nest_blueprint
 from app.main.serializer import ElasticsearchTransparentErrorSerializer
 
 
@@ -29,5 +30,7 @@ def handle_http_exception(e):
 def handle_transport_error(e):
     return ElasticsearchTransparentErrorSerializer().serialize(e)
 
+
 app.register_blueprint(sentiment_blueprint, url_prefix='/api/sentiment')
+app.register_blueprint(nest_blueprint, url_prefix='/api/nest')
 
