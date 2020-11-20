@@ -38,3 +38,16 @@ class ElasticsearchAdapter:
             body=body
         )
 
+    def create_doc(self, index, elastic_id, doc):
+        now = datetime.now()
+        doc.update({
+            ElasticsearchDocVO.TIMESTAMP: now,
+            ElasticsearchDocVO.UPDATED_AT: now
+        })
+
+        return self.es.create(
+            index=index,
+            id=elastic_id,
+            body=doc
+        )
+

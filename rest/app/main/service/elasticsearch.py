@@ -45,3 +45,18 @@ class ElasticsearchService:
             doc=doc
         )
 
+    def create_doc(self, index, elastic_id, content, source, sentiment=None):
+        sentiment = SentimentType.UNK.value if sentiment is None else sentiment
+
+        doc = {
+            ElasticsearchDocVO.CONTENT: content,
+            ElasticsearchDocVO.SOURCE: source,
+            ElasticsearchDocVO.SENTIMENT: sentiment
+        }
+
+        return self.adapter.create_doc(
+            index=index,
+            elastic_id=elastic_id,
+            doc=doc
+        )
+

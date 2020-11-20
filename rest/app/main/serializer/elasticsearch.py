@@ -33,6 +33,18 @@ class ElasticsearchDocUpdateSerializer:
         return jsonify(res)
 
 
+class ElasticsearchDocCreateSerializer:
+
+    @staticmethod
+    def serialize(doc):
+        res = {
+            'id': doc['_id'],
+            'result': doc['result']
+        }
+
+        return jsonify(res)
+
+
 class ElasticsearchTransparentErrorSerializer:
 
     @staticmethod
